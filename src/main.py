@@ -1,6 +1,10 @@
 import os
+import sys
 from flask import Flask, send_from_directory
 from flask_cors import CORS
+
+# Add the project root to Python path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import database and models
 from src.models.user import db
