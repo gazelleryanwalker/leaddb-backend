@@ -69,9 +69,187 @@ def api_info():
             'lead_lists': '/api/lists',
             'lead_generation': '/api/leads',
             'export': '/api/export',
-            'health': '/health'
+            'health': '/health',
+            'init_db': '/api/init-database'
         }
     }
+
+# Database initialization endpoint
+@app.route('/api/init-database', methods=['POST', 'GET'])
+def init_database():
+    try:
+        # Check if data already exists
+        existing_companies = Company.query.count()
+        existing_contacts = Contact.query.count()
+        
+        if existing_companies > 0 or existing_contacts > 0:
+            return {
+                'status': 'already_initialized',
+                'message': f'Database already has {existing_companies} companies and {existing_contacts} contacts',
+                'companies': existing_companies,
+                'contacts': existing_contacts
+            }
+        
+        # Create sample companies
+        companies_data = [
+            {
+                'name': 'TechCorp Solutions',
+                'domain': 'techcorp.com',
+                'website': 'https://techcorp.com',
+                'industry': 'Technology',
+                'size': '100-500',
+                'location': 'San Francisco, CA',
+                'funding': 'Series B',
+                'description': 'Leading software development company'
+            },
+            {
+                'name': 'HVAC Masters Inc',
+                'domain': 'hvacmasters.com',
+                'website': 'https://hvacmasters.com',
+                'industry': 'HVAC',
+                'size': '50-100',
+                'location': 'Miami, FL',
+                'funding': 'Bootstrapped',
+                'description': 'Professional HVAC installation and repair services'
+            },
+            {
+                'name': 'Green Energy Solutions',
+                'domain': 'greenenergy.com',
+                'website': 'https://greenenergy.com',
+                'industry': 'Energy',
+                'size': '200-1000',
+                'location': 'Austin, TX',
+                'funding': 'Series A',
+                'description': 'Renewable energy consulting and installation'
+            },
+            {
+                'name': 'DataFlow Analytics',
+                'domain': 'dataflow.com',
+                'website': 'https://dataflow.com',
+                'industry': 'Technology',
+                'size': '10-50',
+                'location': 'New York, NY',
+                'funding': 'Seed',
+                'description': 'Business intelligence and data analytics platform'
+            },
+            {
+                'name': 'Florida HVAC Pro',
+                'domain': 'flhvacpro.com',
+                'website': 'https://flhvacpro.com',
+                'industry': 'HVAC',
+                'size': '20-50',
+                'location': 'Orlando, FL',
+                'funding': 'Bootstrapped',
+                'description': 'Commercial and residential HVAC services'
+            }
+        ]
+        
+        created_companies = []
+        for comp_data in companies_data:
+            company = Company(**comp_data)
+            db.session.add(company)
+            created_companies.append(company)
+        
+        db.session.flush()  # Get company IDs
+        
+        # Create sample contacts
+        contacts_data = [
+            {
+                'name': 'John Smith',
+                'email': 'john.smith@techcorp.com',
+                'phone': '+1-555-0101',
+                'job_title': 'CEO',
+                'department': 'Executive',
+                'seniority': 'Executive',
+                'company_id': created_companies[0].id
+            },
+            {
+                'name': 'Sarah Johnson',
+                'email': 'sarah.johnson@techcorp.com',
+                'phone': '+1-555-0102',
+                'job_title': 'VP of Sales',
+                'department': 'Sales',
+                'seniority': 'VP',
+                'company_id': created_companies[0].id
+            },
+            {
+                'name': 'Mike Rodriguez',
+                'email': 'mike@hvacmasters.com',
+                'phone': '+1-555-0201',
+                'job_title': 'Owner',
+                'department': 'Executive',
+                'seniority': 'Executive',
+                'company_id': created_companies[1].id
+            },
+            {
+                'name': 'Lisa Chen',
+                'email': 'lisa.chen@greenenergy.com',
+                'phone': '+1-555-0301',
+                'job_title': 'Director of Operations',
+                'department': 'Operations',
+                'seniority': 'Director',
+                'company_id': created_companies[2].id
+            },
+            {
+                'name': 'David Wilson',
+                'email': 'david@dataflow.com',
+                'phone': '+1-555-0401',
+                'job_title': 'CTO',
+                'department': 'Technology',
+                'seniority': 'Executive',
+                'company_id': created_companies[3].id
+            },
+            {
+                'name': 'Maria Garcia',
+                'email': 'maria@flhvacpro.com',
+                'phone': '+1-555-0501',
+                'job_title': 'Service Manager',
+                'department': 'Operations',
+                'seniority': 'Manager',
+                'company_id': created_companies[4].id
+            }
+        ]
+        
+        created_contacts = []
+        for contact_data in contacts_data:
+            contact = Contact(**contact_data)
+            created_contacts.append(contact)
+            db.session.add(contact)
+        
+        # Create a sample lead list
+        lead_list = LeadList(
+            name='HVAC Prospects',
+            description='Potential HVAC companies for outreach',
+            created_by=1  # Assuming user ID 1 exists
+        )
+        db.session.add(lead_list)
+        db.session.flush()
+        
+        # Add HVAC contacts to the lead list
+        for contact in created_contacts:
+            if 'hvac' in contact.email.lower():
+                lead_list_contact = LeadListContact(
+                    lead_list_id=lead_list.id,
+                    contact_id=contact.id
+                )
+                db.session.add(lead_list_contact)
+        
+        db.session.commit()
+        
+        return {
+            'status': 'success',
+            'message': 'Database initialized successfully',
+            'companies_created': len(created_companies),
+            'contacts_created': len(created_contacts),
+            'lead_lists_created': 1
+        }
+        
+    except Exception as e:
+        db.session.rollback()
+        return {
+            'status': 'error',
+            'message': f'Failed to initialize database: {str(e)}'
+        }, 500
 
 # Serve React frontend (if built files are present)
 @app.route('/')
