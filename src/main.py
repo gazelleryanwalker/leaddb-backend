@@ -165,57 +165,63 @@ def init_database():
         # Create sample contacts
         contacts_data = [
             {
-                'name': 'John Smith',
+                'first_name': 'John',
+                'last_name': 'Smith',
                 'email': 'john.smith@techcorp.com',
                 'phone': '+1-555-0101',
                 'job_title': 'CEO',
                 'department': 'Executive',
-                'seniority': 'Executive',
+                'seniority_level': 'Executive',
                 'company_id': created_companies[0].id
             },
             {
-                'name': 'Sarah Johnson',
+                'first_name': 'Sarah',
+                'last_name': 'Johnson',
                 'email': 'sarah.johnson@techcorp.com',
                 'phone': '+1-555-0102',
                 'job_title': 'VP of Sales',
                 'department': 'Sales',
-                'seniority': 'VP',
+                'seniority_level': 'VP',
                 'company_id': created_companies[0].id
             },
             {
-                'name': 'Mike Rodriguez',
+                'first_name': 'Mike',
+                'last_name': 'Rodriguez',
                 'email': 'mike@hvacmasters.com',
                 'phone': '+1-555-0201',
                 'job_title': 'Owner',
                 'department': 'Executive',
-                'seniority': 'Executive',
+                'seniority_level': 'Executive',
                 'company_id': created_companies[1].id
             },
             {
-                'name': 'Lisa Chen',
+                'first_name': 'Lisa',
+                'last_name': 'Chen',
                 'email': 'lisa.chen@greenenergy.com',
                 'phone': '+1-555-0301',
                 'job_title': 'Director of Operations',
                 'department': 'Operations',
-                'seniority': 'Director',
+                'seniority_level': 'Director',
                 'company_id': created_companies[2].id
             },
             {
-                'name': 'David Wilson',
+                'first_name': 'David',
+                'last_name': 'Wilson',
                 'email': 'david@dataflow.com',
                 'phone': '+1-555-0401',
                 'job_title': 'CTO',
                 'department': 'Technology',
-                'seniority': 'Executive',
+                'seniority_level': 'Executive',
                 'company_id': created_companies[3].id
             },
             {
-                'name': 'Maria Garcia',
+                'first_name': 'Maria',
+                'last_name': 'Garcia',
                 'email': 'maria@flhvacpro.com',
                 'phone': '+1-555-0501',
                 'job_title': 'Service Manager',
                 'department': 'Operations',
-                'seniority': 'Manager',
+                'seniority_level': 'Manager',
                 'company_id': created_companies[4].id
             }
         ]
