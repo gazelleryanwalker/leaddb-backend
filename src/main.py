@@ -245,7 +245,7 @@ def init_database():
         for contact in created_contacts:
             if 'hvac' in contact.email.lower():
                 lead_list_contact = LeadListContact(
-                    lead_list_id=lead_list.id,
+                    list_id=lead_list.id,
                     contact_id=contact.id
                 )
                 db.session.add(lead_list_contact)
