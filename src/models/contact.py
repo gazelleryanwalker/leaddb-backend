@@ -31,6 +31,55 @@ class Contact(db.Model):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+    def calculate_lead_score(self):
+        """Calculate lead score based on contact attributes"""
+        score = 0
+        
+        # Job title scoring
+        if self.job_title:
+            title = self.job_title.lower()
+            if 'ceo' in title or 'founder' in title or 'president' in title:
+                score += 30
+            elif 'cto' in title or 'cfo' in title or 'cmo' in title:
+                score += 25
+            elif 'director' in title or 'vp' in title or 'vice president' in title:
+                score += 20
+            elif 'manager' in title or 'head' in title:
+                score += 15
+            elif 'lead' in title or 'senior' in title:
+                score += 10
+        
+        # Department scoring
+        if self.department:
+            dept = self.department.lower()
+            if 'executive' in dept or 'c-suite' in dept:
+                score += 20
+            elif 'marketing' in dept or 'sales' in dept:
+                score += 15
+            elif 'engineering' in dept or 'product' in dept:
+                score += 10
+        
+        # Seniority level scoring
+        if self.seniority_level:
+            seniority = self.seniority_level.lower()
+            if 'executive' in seniority or 'c-level' in seniority:
+                score += 25
+            elif 'senior' in seniority or 'director' in seniority:
+                score += 15
+            elif 'manager' in seniority:
+                score += 10
+        
+        # Contact info completeness
+        if self.email:
+            score += 10
+        if self.phone:
+            score += 5
+        if self.linkedin_url:
+            score += 5
+        
+        # Ensure score is between 0 and 100
+        return min(100, max(0, score))
+
     def to_dict(self):
         return {
             'id': self.id,

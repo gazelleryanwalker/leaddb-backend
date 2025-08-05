@@ -1,4 +1,4 @@
-# LeadDB Backend
+I don't want a fucking jerry-rigged solution.# LeadDB Backend
 
 Apollo.io alternative lead database system - Backend API
 
