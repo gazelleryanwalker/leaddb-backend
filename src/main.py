@@ -13,6 +13,7 @@ from src.models.contact import Contact
 from src.models.lead_list import LeadList, LeadListContact, SavedSearch
 
 # Import all route blueprints
+from src.routes.api import api_bp
 from src.routes.user import user_bp
 from src.routes.companies import companies_bp
 from src.routes.contacts import contacts_bp
@@ -45,7 +46,8 @@ CORS(app, origins=['*'])
 db.init_app(app)
 
 # Register all blueprints
-app.register_blueprint(user_bp, url_prefix='/api')
+app.register_blueprint(api_bp, url_prefix='/api')
+app.register_blueprint(user_bp, url_prefix='/api/users')
 app.register_blueprint(companies_bp, url_prefix='/api')
 app.register_blueprint(contacts_bp, url_prefix='/api')
 app.register_blueprint(lead_lists_bp, url_prefix='/api')
@@ -57,45 +59,7 @@ app.register_blueprint(lead_gen_bp, url_prefix='/api/leads')
 def health_check():
     return {'status': 'healthy', 'service': 'leaddb-backend'}
 
-# API info endpoint
-@app.route('/api')
-def api_info():
-    return {
-        'service': 'LeadDB API',
-        'version': '1.0.0',
-        'endpoints': {
-            'stats': '/api/stats',
-            'companies': '/api/companies',
-            'contacts': '/api/contacts',
-            'lead_lists': '/api/lists',
-            'lead_generation': '/api/leads',
-            'export': '/api/export',
-            'health': '/health',
-            'init_db': '/api/init-database'
-        }
-    }
 
-# Stats endpoint
-@app.route('/api/stats')
-def get_stats():
-    try:
-        company_count = Company.query.count()
-        contact_count = Contact.query.count()
-        lead_list_count = LeadList.query.count()
-        
-        return {
-            'status': 'success',
-            'stats': {
-                'companies': company_count,
-                'contacts': contact_count,
-                'campaigns': lead_list_count  # Using lead_lists as campaigns
-            }
-        }
-    except Exception as e:
-        return {
-            'status': 'error',
-            'message': f'Failed to retrieve stats: {str(e)}'
-        }, 500
 
 # Database initialization endpoint
 @app.route('/api/init-database', methods=['POST', 'GET'])
