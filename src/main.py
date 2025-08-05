@@ -97,9 +97,11 @@ def init_database():
                 'domain': 'techcorp.com',
                 'website': 'https://techcorp.com',
                 'industry': 'Technology',
-                'size': '100-500',
-                'location': 'San Francisco, CA',
-                'funding': 'Series B',
+                'company_size': '100-500',
+                'location_city': 'San Francisco',
+                'location_state': 'CA',
+                'location_country': 'USA',
+                'funding_status': 'Series B',
                 'description': 'Leading software development company'
             },
             {
@@ -107,9 +109,11 @@ def init_database():
                 'domain': 'hvacmasters.com',
                 'website': 'https://hvacmasters.com',
                 'industry': 'HVAC',
-                'size': '50-100',
-                'location': 'Miami, FL',
-                'funding': 'Bootstrapped',
+                'company_size': '50-100',
+                'location_city': 'Miami',
+                'location_state': 'FL',
+                'location_country': 'USA',
+                'funding_status': 'Bootstrapped',
                 'description': 'Professional HVAC installation and repair services'
             },
             {
@@ -117,9 +121,11 @@ def init_database():
                 'domain': 'greenenergy.com',
                 'website': 'https://greenenergy.com',
                 'industry': 'Energy',
-                'size': '200-1000',
-                'location': 'Austin, TX',
-                'funding': 'Series A',
+                'company_size': '200-1000',
+                'location_city': 'Austin',
+                'location_state': 'TX',
+                'location_country': 'USA',
+                'funding_status': 'Series A',
                 'description': 'Renewable energy consulting and installation'
             },
             {
@@ -127,9 +133,11 @@ def init_database():
                 'domain': 'dataflow.com',
                 'website': 'https://dataflow.com',
                 'industry': 'Technology',
-                'size': '10-50',
-                'location': 'New York, NY',
-                'funding': 'Seed',
+                'company_size': '10-50',
+                'location_city': 'New York',
+                'location_state': 'NY',
+                'location_country': 'USA',
+                'funding_status': 'Seed',
                 'description': 'Business intelligence and data analytics platform'
             },
             {
@@ -137,9 +145,11 @@ def init_database():
                 'domain': 'flhvacpro.com',
                 'website': 'https://flhvacpro.com',
                 'industry': 'HVAC',
-                'size': '20-50',
-                'location': 'Orlando, FL',
-                'funding': 'Bootstrapped',
+                'company_size': '20-50',
+                'location_city': 'Orlando',
+                'location_state': 'FL',
+                'location_country': 'USA',
+                'funding_status': 'Bootstrapped',
                 'description': 'Commercial and residential HVAC services'
             }
         ]
