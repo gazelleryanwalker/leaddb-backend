@@ -64,6 +64,7 @@ def api_info():
         'service': 'LeadDB API',
         'version': '1.0.0',
         'endpoints': {
+            'stats': '/api/stats',
             'companies': '/api/companies',
             'contacts': '/api/contacts',
             'lead_lists': '/api/lists',
@@ -73,6 +74,28 @@ def api_info():
             'init_db': '/api/init-database'
         }
     }
+
+# Stats endpoint
+@app.route('/api/stats')
+def get_stats():
+    try:
+        company_count = Company.query.count()
+        contact_count = Contact.query.count()
+        lead_list_count = LeadList.query.count()
+        
+        return {
+            'status': 'success',
+            'stats': {
+                'companies': company_count,
+                'contacts': contact_count,
+                'campaigns': lead_list_count  # Using lead_lists as campaigns
+            }
+        }
+    except Exception as e:
+        return {
+            'status': 'error',
+            'message': f'Failed to retrieve stats: {str(e)}'
+        }, 500
 
 # Database initialization endpoint
 @app.route('/api/init-database', methods=['POST', 'GET'])
